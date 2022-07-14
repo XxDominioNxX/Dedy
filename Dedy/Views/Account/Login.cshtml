@@ -1,0 +1,25 @@
+﻿@model Dedy.ViewModel.LoginViewModel
+
+
+<form class="container mt-lg-3" method="post" asp-controller="Account" asp-action="Login"
+      asp-route-returnUrl="@Model.ReturnUrl">
+    <h2>Вход в приложение</h2>
+    <div asp-validation-summary="ModelOnly"></div>
+    <div>
+        <label asp-for="Email"></label><br />
+        <input asp-for="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+    <div>
+        <label asp-for="Password"></label><br />
+        <input asp-for="Password" />
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div>
+        <label asp-for="RememberMe"></label><br />
+        <input asp-for="RememberMe" />
+    </div>
+    <div>
+        <input class="btn btn-outline-dark" type="submit" value="Войти" />
+    </div>
+</form>

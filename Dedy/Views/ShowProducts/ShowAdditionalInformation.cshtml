@@ -1,0 +1,8 @@
+﻿@model Product
+<div class="container">
+    @if (Model.HasImage())
+     {
+         <img src="@Url.Action("GetImage", new { id = Model.ImageId })" class="card-img-top rounded" />
+     }
+</div>
+            

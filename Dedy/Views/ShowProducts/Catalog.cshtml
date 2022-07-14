@@ -1,0 +1,212 @@
+﻿@model Dedy.Models.ListProductView
+@{
+    ViewData["Title"] = "Список товаров";
+
+
+}
+
+<div class="container bg-white flex-md-column">
+    <div class="container pt-5">
+
+
+        <h2 class="text-center">@ViewData["Title"]</h2>
+
+
+        <div style="display:flex; flex-direction:column">
+            <div>
+                @if (ViewData["Action"].ToString() == "CatalogPamyat")
+                {
+                    <button data-toggle="collapse" data-target="#demo" class="btn mt-1 btn-outline-info">Поиск по фильтру</button>
+                    <form method="post" id="demo" class="collapse">
+                        <div class="form-group mt-4">
+                            <label>Поиск по названию</label>
+                            <input type="text" name="filt.Name" value="@(Model.filter.Name != null ? Model.filter.Name : "")" class="form-control" />
+                        </div>
+                        <div class="form-check-inline">
+                            <input type="checkbox" name="filt.Color_Black" value="true" @Html.Raw(Model.filter.Color_Black ? "checked" : "")>Черный цвет
+                        </div>
+                        <div class="form-check-inline">
+                            <input type="checkbox" name="filt.Color_White" value="true" @Html.Raw(Model.filter.Color_White ? "checked" : "")>Белый цвет
+                        </div>
+                        <div class="form-check-inline">
+                            <input type="checkbox" name="filt.Color_Red" value="true" @Html.Raw(Model.filter.Color_Red ? "checked" : "")>Красный цвет
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="sel1">Выберите материал:</label>
+                            <select name="filt.Material" class="form-control" id="sel1">
+                                <option selected="@((Model.filter.Material == null || Model.filter.Material == "") ? true : false)" value="">Не выбрано</option>
+                                <option selected="@(Model.filter.Material == "Гранит" ? true : false)" value="Гранит">Гранит</option>
+                                <option selected="@(Model.filter.Material == "Мрамор" ? true : false)" value="Мрамор">Мрамор</option>
+                            </select>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="sel1">Выберите вид:</label>
+                            <select name="filt.Orientation" class="form-control" id="sel1">
+                                <option selected="@((Model.filter.Orientation == null || Model.filter.Orientation == "") ? true : false)" value="">Не выбрано</option>
+                                <option selected="@(Model.filter.Orientation == "Вертикальные" ? true : false)" value="Вертикальные">Вертикальные</option>
+                                <option selected="@(Model.filter.Orientation == "Горизонтальные" ? true : false)" value="Горизонтальные">Горизонтальные</option>
+                                <option selected="@(Model.filter.Orientation == "Фигурные" ? true : false)" value="Фигурные">Фигурные</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="filt.MinPrice">Цена</label>
+                            <div class="row">
+                                <input type="number" min="0" name="filt.MinPrice" placeholder="От" value="@(Model.filter.MinPrice != null ? Model.filter.MinPrice : "")" class="form-control col-lg-4 ml-lg-3" />
+                                <input type="number" min="0" name="filt.MaxPrice" placeholder="До" value="@(Model.filter.MaxPrice != null ? Model.filter.MaxPrice : "")" class="form-control col-lg-4 ml-lg-2" />
+                            </div>
+                        </div>
+                        <div class="form-group mt-4">
+                            <input type="submit" value="Поиск" class="btn btn-outline-dark" />
+                        </div>
+                    </form>
+                }
+                @if (ViewData["Action"].ToString() == "CatalogOgrad")
+                {
+                    <button data-toggle="collapse" data-target="#demo" class="btn mt-1 btn-outline-info">Поиск по фильтру</button>
+                    <form method="post" id="demo" class="collapse">
+                        <div class="form-group mt-4">
+                            <label>Поиск по названию</label>
+                            <input type="text" name="filt.Name" value="@(Model.filter.Name != null ? Model.filter.Name : "")" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="filt.MinPrice">Цена</label>
+                            <div class="row">
+                                <input type="number" min="0" name="filt.MinPrice" placeholder="От" value="@(Model.filter.MinPrice != null ? Model.filter.MinPrice : "")" class="form-control col-lg-4 ml-lg-3" />
+                                <input type="number" min="0" name="filt.MaxPrice" placeholder="До" value="@(Model.filter.MaxPrice != null ? Model.filter.MaxPrice : "")" class="form-control col-lg-4 ml-lg-2" />
+                            </div>
+                        </div>
+                        <div class="form-group mt-4">
+                            <input type="submit" value="Поиск" class="btn btn-outline-dark" />
+                        </div>
+                    </form>
+                }
+            </div>
+            <div class="btn-group mt-3">
+                <a class="btn btn-dark" style="@(ViewData["Action"].ToString() == "CatalogPamyat" ? "background-color:lightgray; color:black" : "color:white")" asp-controller="ShowProducts" asp-action="CatalogPamyat">Памятники</a>
+                <a class="btn btn-dark" style="@(ViewData["Action"].ToString() == "CatalogOgrad" ? "background-color:lightgray; color:black" : "color:white")" asp-controller="ShowProducts" asp-action="CatalogOgrad">Благоустройство</a>
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <div class="row bg-white">
+            @foreach (var item in Model.Entryes)
+            {
+                <div class="col-md-6 col-xl-3 mb-4 mt-4">
+                    <div class="card pt-1 pb-1 pl-1 pr-1">
+                        <div>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <form method="post" style="margin-bottom: 2%; float: right; border: 0;">
+                                    @Html.Hidden("returnId", @item.Id)
+                                    @Html.Hidden("icq", "77")
+                                    <button class="badge badge-pill badge-danger" type="submit" id="@item.Id"  style="margin-bottom:2%;float:right;border:0;font-size:15px;">Удалить</button>
+                                </form>
+                            }
+                                <div>
+                                    @if (item.HasImage())
+                                    {
+                                        <img src="@Url.Action("GetImage", new { id = item.ImageId })" class="card-img-top rounded" style="margin-right: 20%" />
+                                    }
+                                </div>
+                            </div>
+
+                        <div>
+                            @if (item.Color == "Черный")
+                            {
+                                <span class="badge badge-pill badge-dark">Черный</span>
+                            }
+                            @if (item.Color == "Красный")
+                            {
+                                <span class="badge badge-pill badge-danger">Красный</span>
+                            }
+                            @if (item.Color == "Белый")
+                            {
+                                <span class="badge badge-pill badge-light">Белый</span>
+                            }
+                            @if (item.Orientation == "Горизонтальные")
+                            {
+                                <span class="badge badge-pill badge-info">Горизонтальные</span>
+                            }
+                            @if (item.Orientation == "Вертикальные")
+                            {
+                                <span class="badge badge-pill badge-dark">Вертикальные</span>
+                            }
+                            @if (item.Orientation == "Фигурные")
+                            {
+                                <span class="badge badge-pill badge-dark">Фигурные</span>
+                            }
+                            @if (item.Model == "Вазы")
+                            {
+                                <span class="badge badge-pill badge-info">Вазы</span>
+                                <span class="badge badge-pill badge-primary">@item.Size</span>
+                            }
+                            @if (item.Model == "Ограды")
+                            {
+                                <span class="badge badge-pill badge-dark">Ограды</span>
+                            }
+                            @if (item.Model == "Подсвечники гранитные")
+                            {
+                                <span class="badge badge-pill badge-dark">Подсвечники</span>
+                            }
+
+                        </div>
+                        <div>
+                            <div class="mt-1 ml-2 mb-2">
+                                <h4 class="card-title">@item.Name</h4>
+                                <p class="card-text">  Производитель:  @item.Articul</p>
+                                <p class="card-text">  Цена:           @item.Price.ToString("c")</p>
+                            </div>
+
+                            <form method="post">
+                                @Html.Hidden("returnId", @item.Id)
+                                <button type="submit" style="width:100%" asp-controller="ShowProducts" asp-action="CatalogPamyat" class="btn btn-outline-info" id="@item.Id">Подробнее >></button>
+                            </form>
+                        </div>
+
+
+
+
+
+                    </div>
+                </div>
+            }
+
+        </div>
+
+
+        @if (ViewData["Action"].ToString() == "CatalogPamyat")
+        {
+            <div class="container fixed-bottom" style="display:flex;justify-content:center;align-items:center;">
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" asp-controller="ShowProducts" asp-action="CatalogPamyat" asp-route-Page="@(Model.PageINFO.CurrentPage == 1 ? Model.PageINFO.CurrentPage : Model.PageINFO.CurrentPage - 1)">Назад</a></li>
+                    @for (int i = 0; i < Model.PageINFO.TotalPages; i++)
+                    {
+                        <li class="page-item"><a class="page-link" asp-controller="ShowProducts" asp-action="CatalogPamyat" asp-route-Page="@(i+1)">@(i+1)</a></li>
+                    }
+                    <li class="page-item"><a class="page-link" asp-controller="ShowProducts" asp-action="CatalogPamyat" asp-route-Page="@(Model.PageINFO.CurrentPage== Model.PageINFO.TotalPages ? Model.PageINFO.CurrentPage : Model.PageINFO.CurrentPage + 1)">Далее</a></li>
+                </ul>
+            </div>
+        }
+        @if (ViewData["Action"].ToString() == "CatalogOgrad")
+        {
+            <div class="container fixed-bottom" style="display:flex;justify-content:center;align-items:center;">
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" asp-controller="ShowProducts" asp-action="CatalogOgrad" asp-route-Page="@(Model.PageINFO.CurrentPage == 1 ? Model.PageINFO.CurrentPage : Model.PageINFO.CurrentPage - 1)">Назад</a></li>
+                    @for (int i = 0; i < Model.PageINFO.TotalPages; i++)
+                    {
+                        <li class="page-item"><a class="page-link" asp-controller="ShowProducts" asp-action="CatalogOgrad" asp-route-Page="@(i+1)">@(i+1)</a></li>
+                    }
+                    <li class="page-item"><a class="page-link" asp-controller="ShowProducts" asp-action="CatalogOgrad" asp-route-Page="@(Model.PageINFO.CurrentPage == Model.PageINFO.TotalPages ? Model.PageINFO.CurrentPage : Model.PageINFO.CurrentPage + 1)">Далее</a></li>
+                </ul>
+            </div>
+        }
+
+
+
+    </div>
+</div>

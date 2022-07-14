@@ -1,0 +1,97 @@
+﻿@model Dedy.Models.Product
+
+
+<form asp-action="Create" asp-controller="BDOptions" class="container mb-5" method="post" enctype="multipart/form-data">
+    <h2 class="mt-4">@ViewData["Type"]</h2>
+    <input type="hidden" name="Type_return" value="@ViewData["Type"]" />
+    @if (ViewData["Type"].ToString() == "Памятник")
+    {
+        <div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input type="text" asp-for="Name" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Articul"></label>
+                <input type="text" asp-for="Articul" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="sel1">Выбор ориентации памятника:</label>
+                <select asp-for="Orientation" class="form-control" id="sel1">
+                    <option value="" selected="selected">Не выбрано</option>
+                    <option value="Горизонтальные">Горизонтальные</option>
+                    <option value="Вертикальные">Вертикальные</option>
+                    <option value="Фигурные">Фигурные</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="sel2">Выбор материала памятника:</label>
+                <select asp-for="Model" class="form-control" id="sel2">
+                    <option value="" selected="selected">Не выбрано</option>
+                    <option value="Гранит">Гранит</option>
+                    <option value="Мрамор">Мрамор</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="sel3">Выбор цвета:</label>
+                <select asp-for="Color" class="form-control" id="sel3">
+                    <option value="" selected="selected">Не выбрано</option>
+                    <option value="Черный">Черный</option>
+                    <option value="Красный">Красный</option>
+                    <option value="Белый">Белый</option>
+                </select>
+            </div>
+        </div>
+    }
+    @if (ViewData["Type"].ToString() == "Благоустройство")
+    {
+        <div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input type="text" asp-for="Name" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Articul"></label>
+                <input type="text" asp-for="Articul" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="sel2">Выбор модели товара:</label>
+                <select asp-for="Model" class="form-control" id="sel2">
+                    <option value="" selected="selected">Не выбрано</option>
+                    <option value="Вазы">Вазы</option>
+                    <option value="Ограды">Ограды</option>
+                    <option value="Ограды">Подсвечники гранитные</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="sel1">Выбор размера (для Вазы):</label>
+                <select asp-for="Size" class="form-control" id="sel1">
+                    <option value="" selected="selected">Не выбрано</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                </select>
+            </div>
+        </div>
+    }
+
+    <div class="form-group">
+        <label asp-for="Description" for="comment"></label>
+        <textarea class="form-control" rows="5" asp-for="Description" id="comment"></textarea>
+    </div>
+    <div class="form-group">
+        <label>Цена товара:</label>
+        <input asp-for="Price" pattern="[0-9]" class="form-control" />
+    </div>
+    <div class="flex-column">
+        <input class="form-control h-100 " type="file" name="uploadedFile" accept="image/png, image/jpeg" asp-for="ImageId" />
+        <button class="btn btn-outline-primary mt-3" type="submit">Сохранить</button>
+        <a asp-controller="ShowProducts" asp-action="Index" class="btn btn-info mt-3 ml-5">Вернуться к списку</a>
+    </div>
+</form>
+
+
+

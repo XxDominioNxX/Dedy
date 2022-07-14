@@ -1,0 +1,35 @@
+﻿<form class="container mt-lg-3">
+    <h2 class="text-center display-3">Панель управления</h2>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="row mt-3 mb-5">
+            <div class="col-lg-6 mt-5 " style="border-right: 2px solid #ccc; padding-right:10px; margin-right: 20px;">
+                <div>
+                    <h4>Управление учетными записями</h4>
+                    <button class="btn btn-outline-dark" asp-controller="Account" asp-action="Register">Регистрация нового пользователя</button>
+                    <button class="btn btn-outline-dark" asp-controller="Users" asp-action="Index">Редактирование</button>
+                </div>
+                <div class="mt-5">
+                    <h4>Добавить новый товар</h4>
+
+                    <a class="btn btn-outline-dark" asp-controller="BDOptions" asp-action="Create" asp-route-TypeG="Памятник">Новый памятник</a>
+                    <a class="btn btn-outline-dark" asp-controller="BDOptions" asp-action="Create" asp-route-TypeG="Благоустройство">Новый элемент благоустройства</a>
+                </div>
+            </div>
+            <div class="col-lg-2 mt-5">
+                <img src="~/lib/images/User.png" class="mt-5" />
+            </div>
+            <div class="col-lg-3 mt-5">
+                <blockquote class="mt-5" style="font-size:smaller;">
+                    Панель управления предоставляет набор инструментов для управления учетными записями и товарами.
+                    Вы можете получить доступ к товарам для просмотра из главного каталога.
+                    Для перехода к необходимым настройкам кликните нужную кнопку.
+                </blockquote>
+            </div>
+        </div>
+    }
+    else
+    {
+        <h4 class="text-center">Панель управления доступна только авторизованным пользователям</h4>
+    }
+</form>
